@@ -1,0 +1,63 @@
+<!--
+This simple example script with html/js/css,
+for create click button on web page.
+Can be use in variety web platforms.
+The part of mainButton can be ssave seperatly as CSS
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Styled Button Example</title>
+    <style>
+        .mainButton {
+            background-color: #2f5bd6;
+            border: none;
+            color: white;
+            padding: 5px 32px;
+            border-radius: 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 18px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+
+        .mainButton:hover {
+            background-color: rgb(160, 158, 158);
+            color: #000000;
+        }
+    </style>
+</head>
+
+<body>
+    <button class="mainButton" id="Page1">Page1</button>
+    <button class="mainButton" id="Page2">Page2</button>
+    <button class="mainButton" id="Page3">Page3</button>
+    <button class="mainButton" id="Page4">Page4</button>
+
+    <script>
+        document.getElementById('Page1').addEventListener('click', function () {
+            window.open('https://page1.example.com', 'blank');
+
+        });
+        document.getElementById('Page2').addEventListener('click', function () {
+            window.open('https://page2.example.com', 'blank');
+
+        });
+        document.getElementById('Page3').addEventListener('click', function () {
+            window.open('https://page3.example.com', 'blank');
+
+        });
+        document.getElementById('Page4').addEventListener('click', function () {
+            window.open('https://page4.example.com', 'blank');
+
+        });
+    </script>
+</body>
+
+</html>
