@@ -28,3 +28,7 @@
 
 **[freeCodeCamp](https://github.com/freeCodeCamp/freeCodeCamp)** - ***Friendly community where you can learn to code for free***
 
+**[MXToolbox](https://mxtoolbox.com/)** - ***Online tools for diagnostic DNS Records, Blaclists, Mail System DNS's Records test, SMTP test and emails headers***
+
+**[PythonAnywhere](https://www.pythonanywhere.com/)** - ***Run pythone code directly on SaaS via browser***
+
