@@ -1,0 +1,61 @@
+<!--
+Example for add code's box on website with copy button
+The code if self is in section <code>
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Block Example</title>
+    <style>
+        .code-block {
+            position: relative;
+            background-color: #000;
+            color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            overflow-x: auto;
+            font-family: monospace;
+        }
+
+        .copy-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #444;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            padding: 5px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <pre class="code-block" id="code-block">
+<code>
+def hello_world():
+    print("Hello, world!")
+</code>
+    </pre>
+    <button class="copy-button" onclick="copyCode()">Copy</button>
+
+    <script>
+        function copyCode() {
+            const codeBlock = document.getElementById('code-block').innerText;
+            navigator.clipboard.writeText(codeBlock).then(() => {
+                alert('Code copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
+    </script>
+</body>
+
+</html>
