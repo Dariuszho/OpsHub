@@ -1,5 +1,7 @@
 ### Usefully links to web apps, tools, utils, software and services with weight on open sources and under MIT or GNU licensing.
 
+#### **Disclaimer:** All rights, credits, and copyrights are the property of their respective creators and owners. This page is intended solely to provide convenient access to their products and does not claim any ownership or rights over the content.
+
 **[Shodan.io](https://www.shodan.io/)** - ***Search engine for Internet-connected devices***
 
 **[CyberChef](https://github.com/gchq/CyberChef)** - ***CyberChef is a simple, intuitive web app for carrying out all manner of "cyber" operations within a web browser***
@@ -31,4 +33,8 @@
 **[MXToolbox](https://mxtoolbox.com/)** - ***Online tools for diagnostic DNS Records, Blaclists, Mail System DNS's Records test, SMTP test and emails headers***
 
 **[PythonAnywhere](https://www.pythonanywhere.com/)** - ***Run pythone code directly on SaaS via browser***
+
+**[IT-Tools](https://github.com/CorentinTh/it-tools)** - ***Useful tools for developer and people working in IT, simple run on docker***
+
+**[CyberChef](https://github.com/gchq/CyberChef)** - ***CyberChef is a simple, intuitive web app for carrying out all manner of "cyber" operations within a web browser***
 
