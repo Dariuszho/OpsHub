@@ -38,3 +38,6 @@
 
 **[CyberChef](https://github.com/gchq/CyberChef)** - ***CyberChef is a simple, intuitive web app for carrying out all manner of "cyber" operations within a web browser***
 
+**[FastAPI](https://fastapi.tiangolo.com/)** - ***FastAPI is web framework for building APIs with Python***
+
+**[uvicorn](https://www.uvicorn.org/)** - ***Uvicorn is an ASGI web server implementation for Python***
