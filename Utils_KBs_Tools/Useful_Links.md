@@ -6,6 +6,8 @@
 
 **[Chocolatey](https://chocolatey.org/)** - ***Package Manager for Windows***
 
+**[CodeBeautify](https://codebeautify.org/)** - ***Code Formatter, Converters, random generators, a lot online tools for devs and ops***
+
 **[CodePen](https://codepen.io/)** - ***Online editor to try HTML, CSS, JS***
 
 **[CodeSandbox](https://codesandbox.io/)** - ***Online editor to try different web program develop languages***
