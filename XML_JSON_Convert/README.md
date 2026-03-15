@@ -1,79 +1,59 @@
 # XML ↔ JSON Converter
 
-A collection of web applications for bidirectional XML and JSON conversion. Choose the version that best fits your needs.
+A lightweight web application for bidirectional XML and JSON conversion.
 
-## Projects
-
-| Project                                 | Description                       | Requirements |
-| --------------------------------------- | --------------------------------- | ------------ |
-| [html-standalone](./html-standalone/)   | Single HTML file, no installation | Any browser  |
-| [python-flask](./python-flask/)         | Server-based with URL proxy       | Python 3.7+  |
-| [react-typescript](./react-typescript/) | Modern React/TypeScript app       | Node.js 18+  |
-
----
-
-## Quick Comparison
-
-### html-standalone
-- ✅ Zero installation - just open in browser
-- ✅ Works offline
-- ✅ Single file, easy to share
-- ⚠️ URL fetch limited by CORS
-
-### python-flask
-- ✅ Full URL fetch support (server proxy)
-- ✅ Production-ready with Waitress
-- ⚠️ Requires Python installed
-
-### react-typescript
-- ✅ Modern TypeScript codebase
-- ✅ Component-based, easy to extend
-- ✅ Fast development with hot reload
-- ⚠️ Requires Node.js to build/run
-
----
-
-## Features (All Versions)
+## Features
 
 - Bidirectional conversion: XML → JSON and JSON → XML
+- Fetch content from URL (supports both XML and JSON endpoints)
 - Upload files from local machine
 - Download converted results
 - Clear content with one click
-- Dark metallic UI theme
+- Cross-platform: Windows and Linux
 
----
+## Requirements
 
-## Quick Start
+- Python 3.7+
 
-### Simplest (No Installation)
-```
-Open html-standalone/index.html in your browser
-```
+## Installation
 
-### Python Version
 ```bash
-cd python-flask
 pip install -r requirements.txt
+```
+
+## Usage
+
+### Windows
+```
+run.bat
+```
+Or:
+```
 python app.py
-# Open http://localhost:5000
 ```
 
-### React Version
+### Linux
 ```bash
-cd react-typescript
-npm install
-npm run dev
-# Open http://localhost:5173
+chmod +x run.sh
+./run.sh
+```
+Or:
+```bash
+python app.py
 ```
 
----
+Open http://localhost:5000 in your browser.
 
-## Platform Support
+## How to Use
 
-| Platform | html-standalone | python-flask | react-typescript |
-| -------- | --------------- | ------------ | ---------------- |
-| Windows  | ✅               | ✅            | ✅                |
-| Linux    | ✅               | ✅            | ✅                |
-| macOS    | ✅               | ✅            | ✅                |
+1. **Input data**: Paste content, upload a file, or fetch from URL
+2. **Convert**: Click "XML → JSON" or "JSON → XML"
+3. **Export**: Download the result or copy from the text area
+4. **Clear**: Use the Clear button to reset a panel
 
-See individual project READMEs for detailed installation instructions.
+## Dependencies
+
+- Flask - Web framework
+- xmltodict - XML/JSON conversion
+- requests - HTTP requests
+- waitress - Production WSGI server
