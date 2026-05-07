@@ -1,0 +1,30 @@
+# Virtual environment
+.venv/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+
+# Encrypted notebook data (user-specific)
+*.enc
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Packaging build artifacts
+packaging/windows/dist/
+packaging/windows/build/
+packaging/linux/dist/
+packaging/linux/build/
+packaging/linux/*.AppImage
+packaging/linux/appimagetool
+packaging/linux/*.AppDir/

@@ -1,0 +1,204 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background: linear-gradient(135deg, #2c3e50 0%, #1a1a2e 50%, #16213e 100%);
+    min-height: 100vh;
+    color: #e0e0e0;
+}
+
+.app {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+h1 {
+    text-align: center;
+    color: #fff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.url-section {
+    background: linear-gradient(145deg, #3a3a4a, #2a2a3a);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    margin-bottom: 20px;
+    border: 1px solid #444;
+}
+
+.url-section label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.url-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.url-row input {
+    flex: 1;
+    padding: 12px;
+    font-size: 14px;
+    border: 1px solid #555;
+    border-radius: 6px;
+    background: #1a1a2e;
+    color: #e0e0e0;
+}
+
+.url-row input::placeholder {
+    color: #888;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        grid-template-columns: 1fr;
+    }
+
+    .url-row {
+        flex-direction: column;
+    }
+}
+
+.panel {
+    background: linear-gradient(145deg, #3a3a4a, #2a2a3a);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    border: 1px solid #444;
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.panel-header label {
+    font-weight: bold;
+    color: #fff;
+}
+
+.panel-buttons {
+    display: flex;
+    gap: 6px;
+}
+
+.small-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    background: linear-gradient(145deg, #4a5568, #2d3748);
+    color: #e0e0e0;
+    transition: all 0.2s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.small-btn:hover {
+    background: linear-gradient(145deg, #5a6578, #3d4758);
+    transform: translateY(-1px);
+}
+
+textarea {
+    width: 100%;
+    height: 300px;
+    font-family: monospace;
+    font-size: 14px;
+    padding: 12px;
+    border: 1px solid #555;
+    border-radius: 8px;
+    resize: vertical;
+    background: #1a1a2e;
+    color: #e0e0e0;
+}
+
+textarea::placeholder {
+    color: #666;
+}
+
+.buttons {
+    text-align: center;
+    margin: 20px 0;
+}
+
+button {
+    padding: 12px 24px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 8px;
+    margin: 5px;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.fetch-btn {
+    background: linear-gradient(145deg, #6b7280, #4b5563);
+    color: white;
+}
+
+.fetch-btn:hover {
+    background: linear-gradient(145deg, #7b8290, #5b6573);
+    transform: translateY(-2px);
+}
+
+.convert-btn {
+    background: linear-gradient(145deg, #6366f1, #4f46e5);
+    color: white;
+}
+
+.convert-btn:hover {
+    background: linear-gradient(145deg, #818cf8, #6366f1);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+}
+
+.download-btn {
+    background: linear-gradient(145deg, #10b981, #059669);
+    color: white;
+}
+
+.download-btn:hover {
+    background: linear-gradient(145deg, #34d399, #10b981);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+}
+
+.download-btn:disabled,
+.convert-btn:disabled {
+    background: linear-gradient(145deg, #4a4a5a, #3a3a4a);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.error {
+    color: #f87171;
+    text-align: center;
+    margin: 10px 0;
+}
+
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+input[type="file"] {
+    display: none;
+}

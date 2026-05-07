@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XML ↔ JSON Converter</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #2c3e50 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            color: #e0e0e0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #fff;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .url-section {
+            background: linear-gradient(145deg, #3a3a4a, #2a2a3a);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+            border: 1px solid #444;
+        }
+
+        .url-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .url-row input {
+            flex: 1;
+            padding: 12px;
+            font-size: 14px;
+            border: 1px solid #555;
+            border-radius: 6px;
+            background: #1a1a2e;
+            color: #e0e0e0;
+        }
+
+        .url-row input::placeholder {
+            color: #888;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .url-row {
+                flex-direction: column;
+            }
+        }
+
+        .panel {
+            background: linear-gradient(145deg, #3a3a4a, #2a2a3a);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border: 1px solid #444;
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .panel-header label {
+            font-weight: bold;
+            margin: 0;
+            color: #fff;
+        }
+
+        .panel-buttons {
+            display: flex;
+            gap: 6px;
+        }
+
+        .small-btn {
+            padding: 6px 12px;
+            font-size: 12px;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+            background: linear-gradient(145deg, #4a5568, #2d3748);
+            color: #e0e0e0;
+            transition: all 0.2s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .small-btn:hover {
+            background: linear-gradient(145deg, #5a6578, #3d4758);
+            transform: translateY(-1px);
+        }
+
+        textarea {
+            width: 100%;
+            height: 300px;
+            font-family: monospace;
+            font-size: 14px;
+            padding: 12px;
+            border: 1px solid #555;
+            border-radius: 8px;
+            resize: vertical;
+            background: #1a1a2e;
+            color: #e0e0e0;
+        }
+
+        textarea::placeholder {
+            color: #666;
+        }
+
+        .buttons {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        button {
+            padding: 12px 24px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 8px;
+            margin: 5px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .fetch-btn {
+            background: linear-gradient(145deg, #6b7280, #4b5563);
+            color: white;
+        }
+
+        .fetch-btn:hover {
+            background: linear-gradient(145deg, #7b8290, #5b6573);
+            transform: translateY(-2px);
+        }
+
+        .convert-btn {
+            background: linear-gradient(145deg, #6366f1, #4f46e5);
+            color: white;
+        }
+
+        .convert-btn:hover {
+            background: linear-gradient(145deg, #818cf8, #6366f1);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+        }
+
+        .download-btn {
+            background: linear-gradient(145deg, #10b981, #059669);
+            color: white;
+        }
+
+        .download-btn:hover {
+            background: linear-gradient(145deg, #34d399, #10b981);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .download-btn:disabled,
+        .convert-btn:disabled {
+            background: linear-gradient(145deg, #4a4a5a, #3a3a4a);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .error {
+            color: #f87171;
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .note {
+            text-align: center;
+            color: #888;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>XML ↔ JSON Converter</h1>
+
+    <div class="url-section">
+        <label for="urlInput">Fetch XML or JSON from URL:</label>
+        <div class="url-row">
+            <input type="url" id="urlInput" placeholder="https://example.com/data.xml or data.json">
+            <button class="fetch-btn" onclick="fetchFromUrl('xml')">Fetch → XML</button>
+            <button class="fetch-btn" onclick="fetchFromUrl('json')">Fetch → JSON</button>
+        </div>
+        <p class="note">Note: URL fetch requires CORS-enabled endpoints or a CORS proxy</p>
+    </div>
+
+    <div class="buttons">
+        <button class="convert-btn" onclick="convert('toJson')">XML → JSON</button>
+        <button class="convert-btn" onclick="convert('toXml')">JSON → XML</button>
+        <button class="download-btn" id="downloadXmlBtn" onclick="downloadContent('xml')" disabled>Download XML</button>
+        <button class="download-btn" id="downloadJsonBtn" onclick="downloadContent('json')" disabled>Download
+            JSON</button>
+    </div>
+
+    <div id="error" class="error"></div>
+
+    <div class="container">
+        <div class="panel">
+            <div class="panel-header">
+                <label>XML:</label>
+                <div class="panel-buttons">
+                    <button class="small-btn" onclick="document.getElementById('xmlFile').click()">Upload</button>
+                    <button class="small-btn" onclick="downloadContent('xml')">Download</button>
+                    <button class="small-btn" onclick="clearContent('xml')">Clear</button>
+                </div>
+            </div>
+            <textarea id="xmlInput" placeholder="Paste XML here..."></textarea>
+            <input type="file" id="xmlFile" accept=".xml" onchange="uploadFile('xml')">
+        </div>
+        <div class="panel">
+            <div class="panel-header">
+                <label>JSON:</label>
+                <div class="panel-buttons">
+                    <button class="small-btn" onclick="document.getElementById('jsonFile').click()">Upload</button>
+                    <button class="small-btn" onclick="downloadContent('json')">Download</button>
+                    <button class="small-btn" onclick="clearContent('json')">Clear</button>
+                </div>
+            </div>
+            <textarea id="jsonInput" placeholder="Paste JSON here..."></textarea>
+            <input type="file" id="jsonFile" accept=".json" onchange="uploadFile('json')">
+        </div>
+    </div>
+
+    <script>
+        // XML Parser/Builder utilities
+        const XMLConverter = {
+            xmlToJson(xml) {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(xml, 'text/xml');
+                const errorNode = doc.querySelector('parsererror');
+                if (errorNode) throw new Error('Invalid XML: ' + errorNode.textContent);
+                return this.nodeToJson(doc);
+            },
+
+            nodeToJson(node) {
+                if (node.nodeType === Node.TEXT_NODE) {
+                    const text = node.textContent.trim();
+                    return text || null;
+                }
+                if (node.nodeType === Node.DOCUMENT_NODE) {
+                    for (const child of node.childNodes) {
+                        if (child.nodeType === Node.ELEMENT_NODE) {
+                            return { [child.nodeName]: this.nodeToJson(child) };
+                        }
+                    }
+                    return {};
+                }
+                const result = {};
+                if (node.attributes && node.attributes.length > 0) {
+                    for (const attr of node.attributes) {
+                        result['@' + attr.name] = attr.value;
+                    }
+                }
+                const children = {};
+                let textContent = '';
+                for (const child of node.childNodes) {
+                    if (child.nodeType === Node.TEXT_NODE) {
+                        textContent += child.textContent.trim();
+                    } else if (child.nodeType === Node.ELEMENT_NODE) {
+                        const childResult = this.nodeToJson(child);
+                        if (children[child.nodeName]) {
+                            if (!Array.isArray(children[child.nodeName])) {
+                                children[child.nodeName] = [children[child.nodeName]];
+                            }
+                            children[child.nodeName].push(childResult);
+                        } else {
+                            children[child.nodeName] = childResult;
+                        }
+                    }
+                }
+                if (Object.keys(children).length > 0) {
+                    Object.assign(result, children);
+                }
+                if (textContent && Object.keys(result).length === 0) {
+                    return textContent;
+                }
+                if (textContent) {
+                    result['#text'] = textContent;
+                }
+                return Object.keys(result).length > 0 ? result : null;
+            },
+
+            jsonToXml(json, rootName = null) {
+                if (typeof json === 'string') json = JSON.parse(json);
+                let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
+                const keys = Object.keys(json);
+                if (keys.length === 1 && !rootName) {
+                    xml += this.objectToXml(json[keys[0]], keys[0], 0);
+                } else {
+                    xml += this.objectToXml(json, rootName || 'root', 0);
+                }
+                return xml;
+            },
+
+            objectToXml(obj, tagName, indent) {
+                const spaces = '  '.repeat(indent);
+                if (obj === null || obj === undefined) {
+                    return `${spaces}<${tagName}/>\n`;
+                }
+                if (typeof obj !== 'object') {
+                    return `${spaces}<${tagName}>${this.escapeXml(String(obj))}</${tagName}>\n`;
+                }
+                if (Array.isArray(obj)) {
+                    return obj.map(item => this.objectToXml(item, tagName, indent)).join('');
+                }
+                let attrs = '';
+                let children = '';
+                let textContent = '';
+                for (const [key, value] of Object.entries(obj)) {
+                    if (key.startsWith('@')) {
+                        attrs += ` ${key.slice(1)}="${this.escapeXml(String(value))}"`;
+                    } else if (key === '#text') {
+                        textContent = this.escapeXml(String(value));
+                    } else {
+                        children += this.objectToXml(value, key, indent + 1);
+                    }
+                }
+                if (children) {
+                    return `${spaces}<${tagName}${attrs}>\n${children}${spaces}</${tagName}>\n`;
+                } else if (textContent) {
+                    return `${spaces}<${tagName}${attrs}>${textContent}</${tagName}>\n`;
+                } else {
+                    return `${spaces}<${tagName}${attrs}/>\n`;
+                }
+            },
+
+            escapeXml(str) {
+                return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;').replace(/'/g, '&apos;');
+            }
+        };
+
+        function updateButtons() {
+            document.getElementById('downloadXmlBtn').disabled = !document.getElementById('xmlInput').value.trim();
+            document.getElementById('downloadJsonBtn').disabled = !document.getElementById('jsonInput').value.trim();
+        }
+
+        document.getElementById('xmlInput').addEventListener('input', updateButtons);
+        document.getElementById('jsonInput').addEventListener('input', updateButtons);
+
+        async function fetchFromUrl(target) {
+            const url = document.getElementById('urlInput').value;
+            const errorDiv = document.getElementById('error');
+            errorDiv.textContent = '';
+
+            if (!url.trim()) {
+                errorDiv.textContent = 'Please enter a URL';
+                return;
+            }
+
+            document.body.classList.add('loading');
+
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                const content = await response.text();
+                document.getElementById(target === 'xml' ? 'xmlInput' : 'jsonInput').value = content;
+                updateButtons();
+            } catch (e) {
+                errorDiv.textContent = 'Error: ' + e.message + ' (CORS may be blocking the request)';
+            } finally {
+                document.body.classList.remove('loading');
+            }
+        }
+
+        function convert(direction) {
+            const errorDiv = document.getElementById('error');
+            errorDiv.textContent = '';
+
+            try {
+                if (direction === 'toJson') {
+                    const xml = document.getElementById('xmlInput').value;
+                    if (!xml.trim()) { errorDiv.textContent = 'Please enter XML data'; return; }
+                    const json = XMLConverter.xmlToJson(xml);
+                    document.getElementById('jsonInput').value = JSON.stringify(json, null, 2);
+                } else {
+                    const json = document.getElementById('jsonInput').value;
+                    if (!json.trim()) { errorDiv.textContent = 'Please enter JSON data'; return; }
+                    document.getElementById('xmlInput').value = XMLConverter.jsonToXml(json);
+                }
+                updateButtons();
+            } catch (e) {
+                errorDiv.textContent = 'Error: ' + e.message;
+            }
+        }
+
+        function uploadFile(type) {
+            const fileInput = document.getElementById(type + 'File');
+            const file = fileInput.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                document.getElementById(type === 'xml' ? 'xmlInput' : 'jsonInput').value = e.target.result;
+                updateButtons();
+            };
+            reader.readAsText(file);
+            fileInput.value = '';
+        }
+
+        function downloadContent(type) {
+            const content = document.getElementById(type === 'xml' ? 'xmlInput' : 'jsonInput').value;
+            if (!content.trim()) return;
+
+            const blob = new Blob([content], { type: type === 'xml' ? 'application/xml' : 'application/json' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'converted.' + type;
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }
+
+        function clearContent(type) {
+            document.getElementById(type === 'xml' ? 'xmlInput' : 'jsonInput').value = '';
+            updateButtons();
+        }
+    </script>
+</body>
+
+</html>
