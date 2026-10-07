@@ -516,11 +516,24 @@
         const fileList = document.getElementById('file-list');
         let selectedFiles = [];
 
-        // Handle file selection
-        fileInput.addEventListener('change', (e) => {
-            selectedFiles = Array.from(e.target.files);
+        // Add files to the list without replacing existing ones (skips duplicates)
+        function addFiles(files) {
+            files.forEach((file) => {
+                const isDuplicate = selectedFiles.some(
+                    (f) => f.name === file.name && f.size === file.size && f.lastModified === file.lastModified
+                );
+                if (!isDuplicate) {
+                    selectedFiles.push(file);
+                }
+            });
             updateFileList();
             updateMergeButton();
+        }
+
+        // Handle file selection
+        fileInput.addEventListener('change', (e) => {
+            addFiles(Array.from(e.target.files));
+            fileInput.value = '';
         });
 
         // Handle drag and drop
@@ -538,10 +551,10 @@
         fileInputLabel.addEventListener('drop', (e) => {
             e.preventDefault();
             fileInputLabel.style.background = 'rgba(0, 212, 255, 0.05)';
-            selectedFiles = Array.from(e.dataTransfer.files).filter(f => f.type === 'application/pdf');
-            fileInput.files = e.dataTransfer.files;
-            updateFileList();
-            updateMergeButton();
+            const droppedPdfs = Array.from(e.dataTransfer.files).filter(
+                f => f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf')
+            );
+            addFiles(droppedPdfs);
         });
 
         // Update file list display

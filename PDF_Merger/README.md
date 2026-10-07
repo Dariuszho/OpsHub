@@ -47,3 +47,27 @@ The **Merge & Download** button is disabled until at least 2 files are selected.
 ## Dependencies
 
 - [pdf-lib](https://pdf-lib.js.org/) — loaded via CDN (`unpkg.com`)
+
+### Offline / intranet (SharePoint) use
+
+The pages reference pdf-lib from `unpkg.com`. On a locked-down intranet (e.g. a SharePoint 2016+ farm with no outbound internet), the CDN won't load and merging will fail. A local copy of the library is included in this folder as `pdf-lib.min.js`.
+
+To use the local copy, change the script reference at the top of each page from:
+
+```html
+<script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+```
+
+to a relative path:
+
+```html
+<script src="pdf-lib.min.js"></script>
+```
+
+Keep `pdf-lib.min.js` in the same directory (or document library) as the page.
+
+To refresh the local copy from the CDN:
+
+```powershell
+Invoke-WebRequest -Uri "https://unpkg.com/pdf-lib/dist/pdf-lib.min.js" -OutFile "pdf-lib.min.js"
+```

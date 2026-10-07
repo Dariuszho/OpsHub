@@ -1,8 +1,10 @@
+﻿<%@ Page Language="C#" %>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PDF Merger - Advanced</title>
     <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
@@ -25,6 +27,10 @@
             --border-color: rgba(0, 212, 255, 0.2);
             --text-primary: #e8f1ff;
             --text-secondary: #b8c5d6;
+        }
+
+        html, body {
+            height: 100%;
         }
 
         body {
@@ -459,11 +465,11 @@
 
 <body>
 
-    <div class="creator-badge">✦ Created by Dariusz</div>
+    <div class="creator-badge">&#10022; Created by Dariusz</div>
 
     <div class="container">
         <div class="header">
-            <h1>📄 PDF Merger</h1>
+            <h1>&#128196; PDF Merger</h1>
             <p>Advanced PDF merging with intelligent file ordering</p>
         </div>
 
@@ -476,7 +482,7 @@
                 <input type="file" id="file-input" multiple accept=".pdf">
                 <label for="file-input" class="file-input-label">
                     <div class="file-input-content">
-                        <span class="file-input-icon">📁</span>
+                        <span class="file-input-icon">&#128193;</span>
                         <div class="file-input-text">Click or drag PDF files here</div>
                         <div class="file-input-subtext">Add multiple PDFs</div>
                     </div>
@@ -489,25 +495,25 @@
         <div class="status-display" id="status">Ready to merge</div>
 
         <div class="button-section">
-            <button id="merge-btn" disabled>Merge & Download</button>
+            <button id="merge-btn" disabled>Merge &amp; Download</button>
             <button id="clear-btn">Clear</button>
         </div>
     </div>
 
     <script>
-        const fileInput = document.getElementById('file-input');
-        const mergeBtn = document.getElementById('merge-btn');
-        const clearBtn = document.getElementById('clear-btn');
-        const status = document.getElementById('status');
-        const fileList = document.getElementById('file-list');
-        let selectedFiles = [];
+        var fileInput = document.getElementById('file-input');
+        var mergeBtn = document.getElementById('merge-btn');
+        var clearBtn = document.getElementById('clear-btn');
+        var statusEl = document.getElementById('status');
+        var fileList = document.getElementById('file-list');
+        var selectedFiles = [];
 
         // Add files to the list without replacing existing ones (skips duplicates)
         function addFiles(files) {
-            files.forEach((file) => {
-                const isDuplicate = selectedFiles.some(
-                    (f) => f.name === file.name && f.size === file.size && f.lastModified === file.lastModified
-                );
+            files.forEach(function (file) {
+                var isDuplicate = selectedFiles.some(function (f) {
+                    return f.name === file.name && f.size === file.size && f.lastModified === file.lastModified;
+                });
                 if (!isDuplicate) {
                     selectedFiles.push(file);
                 }
@@ -517,50 +523,49 @@
         }
 
         // Handle file selection
-        fileInput.addEventListener('change', (e) => {
-            addFiles(Array.from(e.target.files));
+        fileInput.addEventListener('change', function (e) {
+            addFiles(Array.prototype.slice.call(e.target.files));
             fileInput.value = '';
         });
 
         // Handle drag and drop
-        const fileInputLabel = document.querySelector('.file-input-label');
+        var fileInputLabel = document.querySelector('.file-input-label');
 
-        fileInputLabel.addEventListener('dragover', (e) => {
+        fileInputLabel.addEventListener('dragover', function (e) {
             e.preventDefault();
             fileInputLabel.style.background = 'rgba(0, 212, 255, 0.15)';
         });
 
-        fileInputLabel.addEventListener('dragleave', () => {
+        fileInputLabel.addEventListener('dragleave', function () {
             fileInputLabel.style.background = 'rgba(0, 212, 255, 0.05)';
         });
 
-        fileInputLabel.addEventListener('drop', (e) => {
+        fileInputLabel.addEventListener('drop', function (e) {
             e.preventDefault();
             fileInputLabel.style.background = 'rgba(0, 212, 255, 0.05)';
-            const droppedPdfs = Array.from(e.dataTransfer.files).filter(
-                f => f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf')
-            );
+            var droppedPdfs = Array.prototype.slice.call(e.dataTransfer.files).filter(function (f) {
+                return f.type === 'application/pdf' || f.name.toLowerCase().slice(-4) === '.pdf';
+            });
             addFiles(droppedPdfs);
         });
 
         // Update file list display
         function updateFileList() {
             fileList.innerHTML = '';
-            selectedFiles.forEach((file, index) => {
-                const fileItem = document.createElement('div');
+            selectedFiles.forEach(function (file, index) {
+                var fileItem = document.createElement('div');
                 fileItem.className = 'file-item';
                 fileItem.draggable = true;
                 fileItem.dataset.index = index;
-                fileItem.innerHTML = `
-                <span class="file-item-drag">☰</span>
-                <span class="file-item-index">${index + 1}</span>
-                <span class="file-item-name" title="${file.name}">${file.name}</span>
-                <span class="file-item-actions">
-                    <span class="file-item-move ${index === 0 ? 'disabled' : ''}" onclick="moveFile(${index}, -1)" title="Move up">▲</span>
-                    <span class="file-item-move ${index === selectedFiles.length - 1 ? 'disabled' : ''}" onclick="moveFile(${index}, 1)" title="Move down">▼</span>
-                </span>
-                <span class="file-item-remove" onclick="removeFile(${index})">✕</span>
-            `;
+                fileItem.innerHTML =
+                    '<span class="file-item-drag">&#9776;</span>' +
+                    '<span class="file-item-index">' + (index + 1) + '</span>' +
+                    '<span class="file-item-name" title="' + file.name + '">' + file.name + '</span>' +
+                    '<span class="file-item-actions">' +
+                        '<span class="file-item-move ' + (index === 0 ? 'disabled' : '') + '" onclick="moveFile(' + index + ', -1)" title="Move up">&#9650;</span>' +
+                        '<span class="file-item-move ' + (index === selectedFiles.length - 1 ? 'disabled' : '') + '" onclick="moveFile(' + index + ', 1)" title="Move down">&#9660;</span>' +
+                    '</span>' +
+                    '<span class="file-item-remove" onclick="removeFile(' + index + ')">&#10005;</span>';
 
                 // Drag events
                 fileItem.addEventListener('dragstart', handleDragStart);
@@ -571,47 +576,48 @@
 
                 fileList.appendChild(fileItem);
             });
-            status.innerText = selectedFiles.length > 0
-                ? `${selectedFiles.length} file${selectedFiles.length !== 1 ? 's' : ''} selected`
+            statusEl.innerText = selectedFiles.length > 0
+                ? selectedFiles.length + ' file' + (selectedFiles.length !== 1 ? 's' : '') + ' selected'
                 : 'Ready to merge';
         }
 
         // Drag and drop reordering
-        let draggedIndex = null;
+        var draggedIndex = null;
 
         function handleDragStart(e) {
-            draggedIndex = parseInt(this.dataset.index);
+            draggedIndex = parseInt(this.dataset.index, 10);
             this.classList.add('dragging');
             e.dataTransfer.effectAllowed = 'move';
         }
 
-        function handleDragEnd(e) {
+        function handleDragEnd() {
             this.classList.remove('dragging');
-            document.querySelectorAll('.file-item').forEach(item => {
-                item.classList.remove('drag-over');
-            });
+            var items = document.querySelectorAll('.file-item');
+            for (var i = 0; i < items.length; i++) {
+                items[i].classList.remove('drag-over');
+            }
             draggedIndex = null;
         }
 
         function handleDragOver(e) {
             e.preventDefault();
             e.dataTransfer.dropEffect = 'move';
-            const targetIndex = parseInt(this.dataset.index);
+            var targetIndex = parseInt(this.dataset.index, 10);
             if (targetIndex !== draggedIndex) {
                 this.classList.add('drag-over');
             }
         }
 
-        function handleDragLeave(e) {
+        function handleDragLeave() {
             this.classList.remove('drag-over');
         }
 
         function handleDrop(e) {
             e.preventDefault();
             this.classList.remove('drag-over');
-            const targetIndex = parseInt(this.dataset.index);
+            var targetIndex = parseInt(this.dataset.index, 10);
             if (draggedIndex !== null && targetIndex !== draggedIndex) {
-                const [movedFile] = selectedFiles.splice(draggedIndex, 1);
+                var movedFile = selectedFiles.splice(draggedIndex, 1)[0];
                 selectedFiles.splice(targetIndex, 0, movedFile);
                 updateFileList();
             }
@@ -619,9 +625,9 @@
 
         // Move file up or down
         window.moveFile = function (index, direction) {
-            const newIndex = index + direction;
+            var newIndex = index + direction;
             if (newIndex < 0 || newIndex >= selectedFiles.length) return;
-            const [movedFile] = selectedFiles.splice(index, 1);
+            var movedFile = selectedFiles.splice(index, 1)[0];
             selectedFiles.splice(newIndex, 0, movedFile);
             updateFileList();
         };
@@ -639,64 +645,73 @@
         }
 
         // Clear all files
-        clearBtn.addEventListener('click', () => {
+        clearBtn.addEventListener('click', function () {
             selectedFiles = [];
             fileInput.value = '';
             fileList.innerHTML = '';
             updateMergeButton();
-            status.innerText = 'Ready to merge';
-            status.className = 'status-display';
+            statusEl.innerText = 'Ready to merge';
+            statusEl.className = 'status-display';
         });
 
         // Merge PDF files
-        mergeBtn.addEventListener('click', async () => {
-            status.innerText = 'Merging PDFs... Please wait';
-            status.className = 'status-display pulse';
+        mergeBtn.addEventListener('click', function () {
+            statusEl.innerText = 'Merging PDFs... Please wait';
+            statusEl.className = 'status-display pulse';
             mergeBtn.disabled = true;
 
-            try {
-                const { PDFDocument } = PDFLib;
-                const mergedPdf = await PDFDocument.create();
+            (function () {
+                var PDFDocument = PDFLib.PDFDocument;
+                PDFDocument.create().then(function (mergedPdf) {
+                    var chain = Promise.resolve();
+                    selectedFiles.forEach(function (file) {
+                        chain = chain.then(function () {
+                            return file.arrayBuffer().then(function (arrayBuffer) {
+                                return PDFDocument.load(arrayBuffer).then(function (pdf) {
+                                    return mergedPdf.copyPages(pdf, pdf.getPageIndices()).then(function (copiedPages) {
+                                        copiedPages.forEach(function (page) {
+                                            mergedPdf.addPage(page);
+                                        });
+                                    });
+                                });
+                            });
+                        });
+                    });
 
-                for (const file of selectedFiles) {
-                    const arrayBuffer = await file.arrayBuffer();
-                    const pdf = await PDFDocument.load(arrayBuffer);
-                    const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
-                    copiedPages.forEach((page) => mergedPdf.addPage(page));
-                }
+                    return chain.then(function () {
+                        return mergedPdf.save();
+                    });
+                }).then(function (pdfBytes) {
+                    // Trigger download
+                    var blob = new Blob([pdfBytes], { type: 'application/pdf' });
+                    var url = URL.createObjectURL(blob);
+                    var link = document.createElement('a');
+                    link.href = url;
+                    link.download = 'merged_' + new Date().getTime() + '.pdf';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(url);
 
-                const pdfBytes = await mergedPdf.save();
+                    statusEl.innerText = '\u2713 Success! File downloaded';
+                    statusEl.className = 'status-display success';
 
-                // Trigger download
-                const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-                const url = URL.createObjectURL(blob);
-                const link = document.createElement('a');
-                link.href = url;
-                link.download = `merged_${new Date().getTime()}.pdf`;
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                URL.revokeObjectURL(url);
-
-                status.innerText = '✓ Success! File downloaded';
-                status.className = 'status-display success';
-
-                // Reset after 2 seconds
-                setTimeout(() => {
-                    selectedFiles = [];
-                    fileInput.value = '';
-                    updateFileList();
-                    updateMergeButton();
-                    status.innerText = 'Ready to merge';
-                    status.className = 'status-display';
-                }, 2000);
-
-            } catch (error) {
-                console.error(error);
-                status.innerText = '✕ Error: Could not merge files. Please check they are valid PDFs.';
-                status.className = 'status-display error';
-                mergeBtn.disabled = false;
-            }
+                    // Reset after 2 seconds
+                    setTimeout(function () {
+                        selectedFiles = [];
+                        fileInput.value = '';
+                        updateFileList();
+                        updateMergeButton();
+                        statusEl.innerText = 'Ready to merge';
+                        statusEl.className = 'status-display';
+                    }, 2000);
+                }).catch(function (error) {
+                    console.error(error);
+                    statusEl.innerText = '\u2715 Error: Could not merge files. Please check they are valid PDFs.';
+                    statusEl.className = 'status-display error';
+                    mergeBtn.disabled = false;
+                });
+            })();
         });
     </script>
 

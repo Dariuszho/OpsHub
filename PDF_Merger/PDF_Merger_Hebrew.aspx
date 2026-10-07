@@ -1,10 +1,17 @@
+﻿<%@ Page Language="C#" %>
 <!DOCTYPE html>
-<html lang="en">
+<!--
+// Created by Dariush Horszowski, Tamam Team
+// All rights reserved to Bituh Leumi
+// Hebrew Version 3.0 - SharePoint 2016+ (.aspx)
+-->
+<html lang="he" dir="rtl">
 
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDF Merger - Advanced</title>
+    <title>מיזוג קבצי PDF</title>
     <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
     <style>
         * {
@@ -27,8 +34,12 @@
             --text-secondary: #b8c5d6;
         }
 
+        html, body {
+            height: 100%;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
+            font-family: 'Segoe UI', sans-serif;
             background: linear-gradient(135deg, var(--bg-dark) 0%, #0f1629 50%, #1a0e2e 100%);
             color: var(--text-primary);
             min-height: 100vh;
@@ -38,12 +49,13 @@
             justify-content: center;
             padding: 20px;
             overflow-x: hidden;
+            direction: rtl;
         }
 
         .creator-badge {
             position: absolute;
             top: 20px;
-            left: 20px;
+            right: 20px;
             font-size: 12px;
             font-weight: 600;
             color: var(--accent);
@@ -51,6 +63,7 @@
             text-transform: uppercase;
             opacity: 0.8;
             transition: opacity 0.3s;
+            direction: ltr;
         }
 
         .creator-badge:hover {
@@ -151,15 +164,15 @@
             content: '';
             position: absolute;
             top: 0;
-            left: -100%;
+            right: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.1), transparent);
-            transition: left 0.5s;
+            background: linear-gradient(270deg, transparent, rgba(0, 212, 255, 0.1), transparent);
+            transition: right 0.5s;
         }
 
         .file-input-label:hover::before {
-            left: 100%;
+            right: 100%;
         }
 
         .file-input-label:hover {
@@ -201,7 +214,8 @@
             align-items: center;
             padding: 10px 12px;
             background: rgba(0, 212, 255, 0.05);
-            border-left: 3px solid var(--accent);
+            border-right: 3px solid var(--accent);
+            border-left: none;
             border-radius: 6px;
             margin-bottom: 8px;
             font-size: 0.85rem;
@@ -227,7 +241,8 @@
         .file-item-drag {
             cursor: grab;
             color: var(--text-secondary);
-            margin-right: 8px;
+            margin-left: 8px;
+            margin-right: 0;
             opacity: 0.5;
             transition: opacity 0.2s;
         }
@@ -246,7 +261,8 @@
             color: var(--bg-dark);
             border-radius: 4px;
             font-weight: 700;
-            margin-right: 10px;
+            margin-left: 10px;
+            margin-right: 0;
             font-size: 0.75rem;
         }
 
@@ -255,13 +271,16 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            direction: ltr;
+            text-align: right;
         }
 
         .file-item-actions {
             display: flex;
             align-items: center;
             gap: 4px;
-            margin-left: 10px;
+            margin-right: 10px;
+            margin-left: 0;
         }
 
         .file-item-move {
@@ -287,7 +306,8 @@
             cursor: pointer;
             color: var(--error);
             font-weight: 700;
-            margin-left: 6px;
+            margin-right: 6px;
+            margin-left: 0;
             opacity: 0.7;
             transition: opacity 0.2s;
         }
@@ -352,15 +372,15 @@
             content: '';
             position: absolute;
             top: 0;
-            left: -100%;
+            right: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s;
+            background: linear-gradient(270deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: right 0.5s;
         }
 
         #merge-btn:hover:not(:disabled)::before {
-            left: 100%;
+            right: 100%;
         }
 
         #merge-btn:hover:not(:disabled) {
@@ -459,26 +479,26 @@
 
 <body>
 
-    <div class="creator-badge">✦ Created by Dariusz</div>
+    <div class="creator-badge">&#10022; Created by Dariusz</div>
 
     <div class="container">
         <div class="header">
-            <h1>📄 PDF Merger</h1>
-            <p>Advanced PDF merging with intelligent file ordering</p>
+            <h1>מיזוג קבצי PDF</h1>
+            <p>מיזוג קבצי PDF מתקדם עם סידור קבצים חכם</p>
         </div>
 
         <div class="file-section">
             <label class="file-label">
-                <span class="important">Select PDF files</span>
+                <span class="important">בחר/י קבצי PDF</span>
             </label>
 
             <div class="file-input-wrapper">
                 <input type="file" id="file-input" multiple accept=".pdf">
                 <label for="file-input" class="file-input-label">
                     <div class="file-input-content">
-                        <span class="file-input-icon">📁</span>
-                        <div class="file-input-text">Click or drag PDF files here</div>
-                        <div class="file-input-subtext">Add multiple PDFs</div>
+                        <span class="file-input-icon">&#128193;</span>
+                        <div class="file-input-text">לחץ או גרור קבצי PDF לכאן</div>
+                        <div class="file-input-subtext">הוסף מספר קבצי PDF</div>
                     </div>
                 </label>
             </div>
@@ -486,28 +506,28 @@
             <div class="file-list scrollbar" id="file-list"></div>
         </div>
 
-        <div class="status-display" id="status">Ready to merge</div>
+        <div class="status-display" id="status">מוכן למיזוג</div>
 
         <div class="button-section">
-            <button id="merge-btn" disabled>Merge & Download</button>
-            <button id="clear-btn">Clear</button>
+            <button id="merge-btn" disabled>מזג והורד</button>
+            <button id="clear-btn">נקה</button>
         </div>
     </div>
 
     <script>
-        const fileInput = document.getElementById('file-input');
-        const mergeBtn = document.getElementById('merge-btn');
-        const clearBtn = document.getElementById('clear-btn');
-        const status = document.getElementById('status');
-        const fileList = document.getElementById('file-list');
-        let selectedFiles = [];
+        var fileInput = document.getElementById('file-input');
+        var mergeBtn = document.getElementById('merge-btn');
+        var clearBtn = document.getElementById('clear-btn');
+        var statusEl = document.getElementById('status');
+        var fileList = document.getElementById('file-list');
+        var selectedFiles = [];
 
         // Add files to the list without replacing existing ones (skips duplicates)
         function addFiles(files) {
-            files.forEach((file) => {
-                const isDuplicate = selectedFiles.some(
-                    (f) => f.name === file.name && f.size === file.size && f.lastModified === file.lastModified
-                );
+            files.forEach(function (file) {
+                var isDuplicate = selectedFiles.some(function (f) {
+                    return f.name === file.name && f.size === file.size && f.lastModified === file.lastModified;
+                });
                 if (!isDuplicate) {
                     selectedFiles.push(file);
                 }
@@ -517,50 +537,49 @@
         }
 
         // Handle file selection
-        fileInput.addEventListener('change', (e) => {
-            addFiles(Array.from(e.target.files));
+        fileInput.addEventListener('change', function (e) {
+            addFiles(Array.prototype.slice.call(e.target.files));
             fileInput.value = '';
         });
 
         // Handle drag and drop
-        const fileInputLabel = document.querySelector('.file-input-label');
+        var fileInputLabel = document.querySelector('.file-input-label');
 
-        fileInputLabel.addEventListener('dragover', (e) => {
+        fileInputLabel.addEventListener('dragover', function (e) {
             e.preventDefault();
             fileInputLabel.style.background = 'rgba(0, 212, 255, 0.15)';
         });
 
-        fileInputLabel.addEventListener('dragleave', () => {
+        fileInputLabel.addEventListener('dragleave', function () {
             fileInputLabel.style.background = 'rgba(0, 212, 255, 0.05)';
         });
 
-        fileInputLabel.addEventListener('drop', (e) => {
+        fileInputLabel.addEventListener('drop', function (e) {
             e.preventDefault();
             fileInputLabel.style.background = 'rgba(0, 212, 255, 0.05)';
-            const droppedPdfs = Array.from(e.dataTransfer.files).filter(
-                f => f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf')
-            );
+            var droppedPdfs = Array.prototype.slice.call(e.dataTransfer.files).filter(function (f) {
+                return f.type === 'application/pdf' || f.name.toLowerCase().slice(-4) === '.pdf';
+            });
             addFiles(droppedPdfs);
         });
 
         // Update file list display
         function updateFileList() {
             fileList.innerHTML = '';
-            selectedFiles.forEach((file, index) => {
-                const fileItem = document.createElement('div');
+            selectedFiles.forEach(function (file, index) {
+                var fileItem = document.createElement('div');
                 fileItem.className = 'file-item';
                 fileItem.draggable = true;
                 fileItem.dataset.index = index;
-                fileItem.innerHTML = `
-                <span class="file-item-drag">☰</span>
-                <span class="file-item-index">${index + 1}</span>
-                <span class="file-item-name" title="${file.name}">${file.name}</span>
-                <span class="file-item-actions">
-                    <span class="file-item-move ${index === 0 ? 'disabled' : ''}" onclick="moveFile(${index}, -1)" title="Move up">▲</span>
-                    <span class="file-item-move ${index === selectedFiles.length - 1 ? 'disabled' : ''}" onclick="moveFile(${index}, 1)" title="Move down">▼</span>
-                </span>
-                <span class="file-item-remove" onclick="removeFile(${index})">✕</span>
-            `;
+                fileItem.innerHTML =
+                    '<span class="file-item-drag">&#9776;</span>' +
+                    '<span class="file-item-index">' + (index + 1) + '</span>' +
+                    '<span class="file-item-name" title="' + file.name + '">' + file.name + '</span>' +
+                    '<span class="file-item-actions">' +
+                        '<span class="file-item-move ' + (index === 0 ? 'disabled' : '') + '" onclick="moveFile(' + index + ', -1)" title="הזז למעלה">&#9650;</span>' +
+                        '<span class="file-item-move ' + (index === selectedFiles.length - 1 ? 'disabled' : '') + '" onclick="moveFile(' + index + ', 1)" title="הזז למטה">&#9660;</span>' +
+                    '</span>' +
+                    '<span class="file-item-remove" onclick="removeFile(' + index + ')">&#10005;</span>';
 
                 // Drag events
                 fileItem.addEventListener('dragstart', handleDragStart);
@@ -571,47 +590,48 @@
 
                 fileList.appendChild(fileItem);
             });
-            status.innerText = selectedFiles.length > 0
-                ? `${selectedFiles.length} file${selectedFiles.length !== 1 ? 's' : ''} selected`
-                : 'Ready to merge';
+            statusEl.innerText = selectedFiles.length > 0
+                ? selectedFiles.length + ' קבצים נבחרו'
+                : 'מוכן למיזוג';
         }
 
         // Drag and drop reordering
-        let draggedIndex = null;
+        var draggedIndex = null;
 
         function handleDragStart(e) {
-            draggedIndex = parseInt(this.dataset.index);
+            draggedIndex = parseInt(this.dataset.index, 10);
             this.classList.add('dragging');
             e.dataTransfer.effectAllowed = 'move';
         }
 
-        function handleDragEnd(e) {
+        function handleDragEnd() {
             this.classList.remove('dragging');
-            document.querySelectorAll('.file-item').forEach(item => {
-                item.classList.remove('drag-over');
-            });
+            var items = document.querySelectorAll('.file-item');
+            for (var i = 0; i < items.length; i++) {
+                items[i].classList.remove('drag-over');
+            }
             draggedIndex = null;
         }
 
         function handleDragOver(e) {
             e.preventDefault();
             e.dataTransfer.dropEffect = 'move';
-            const targetIndex = parseInt(this.dataset.index);
+            var targetIndex = parseInt(this.dataset.index, 10);
             if (targetIndex !== draggedIndex) {
                 this.classList.add('drag-over');
             }
         }
 
-        function handleDragLeave(e) {
+        function handleDragLeave() {
             this.classList.remove('drag-over');
         }
 
         function handleDrop(e) {
             e.preventDefault();
             this.classList.remove('drag-over');
-            const targetIndex = parseInt(this.dataset.index);
+            var targetIndex = parseInt(this.dataset.index, 10);
             if (draggedIndex !== null && targetIndex !== draggedIndex) {
-                const [movedFile] = selectedFiles.splice(draggedIndex, 1);
+                var movedFile = selectedFiles.splice(draggedIndex, 1)[0];
                 selectedFiles.splice(targetIndex, 0, movedFile);
                 updateFileList();
             }
@@ -619,9 +639,9 @@
 
         // Move file up or down
         window.moveFile = function (index, direction) {
-            const newIndex = index + direction;
+            var newIndex = index + direction;
             if (newIndex < 0 || newIndex >= selectedFiles.length) return;
-            const [movedFile] = selectedFiles.splice(index, 1);
+            var movedFile = selectedFiles.splice(index, 1)[0];
             selectedFiles.splice(newIndex, 0, movedFile);
             updateFileList();
         };
@@ -639,64 +659,73 @@
         }
 
         // Clear all files
-        clearBtn.addEventListener('click', () => {
+        clearBtn.addEventListener('click', function () {
             selectedFiles = [];
             fileInput.value = '';
             fileList.innerHTML = '';
             updateMergeButton();
-            status.innerText = 'Ready to merge';
-            status.className = 'status-display';
+            statusEl.innerText = 'מוכן למיזוג';
+            statusEl.className = 'status-display';
         });
 
         // Merge PDF files
-        mergeBtn.addEventListener('click', async () => {
-            status.innerText = 'Merging PDFs... Please wait';
-            status.className = 'status-display pulse';
+        mergeBtn.addEventListener('click', function () {
+            statusEl.innerText = 'ממזג קבצי PDF... אנא המתן';
+            statusEl.className = 'status-display pulse';
             mergeBtn.disabled = true;
 
-            try {
-                const { PDFDocument } = PDFLib;
-                const mergedPdf = await PDFDocument.create();
+            (function () {
+                var PDFDocument = PDFLib.PDFDocument;
+                PDFDocument.create().then(function (mergedPdf) {
+                    var chain = Promise.resolve();
+                    selectedFiles.forEach(function (file) {
+                        chain = chain.then(function () {
+                            return file.arrayBuffer().then(function (arrayBuffer) {
+                                return PDFDocument.load(arrayBuffer).then(function (pdf) {
+                                    return mergedPdf.copyPages(pdf, pdf.getPageIndices()).then(function (copiedPages) {
+                                        copiedPages.forEach(function (page) {
+                                            mergedPdf.addPage(page);
+                                        });
+                                    });
+                                });
+                            });
+                        });
+                    });
 
-                for (const file of selectedFiles) {
-                    const arrayBuffer = await file.arrayBuffer();
-                    const pdf = await PDFDocument.load(arrayBuffer);
-                    const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
-                    copiedPages.forEach((page) => mergedPdf.addPage(page));
-                }
+                    return chain.then(function () {
+                        return mergedPdf.save();
+                    });
+                }).then(function (pdfBytes) {
+                    // Trigger download
+                    var blob = new Blob([pdfBytes], { type: 'application/pdf' });
+                    var url = URL.createObjectURL(blob);
+                    var link = document.createElement('a');
+                    link.href = url;
+                    link.download = 'merged_' + new Date().getTime() + '.pdf';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(url);
 
-                const pdfBytes = await mergedPdf.save();
+                    statusEl.innerText = '\u2713 הצלחה! הקובץ הורד';
+                    statusEl.className = 'status-display success';
 
-                // Trigger download
-                const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-                const url = URL.createObjectURL(blob);
-                const link = document.createElement('a');
-                link.href = url;
-                link.download = `merged_${new Date().getTime()}.pdf`;
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                URL.revokeObjectURL(url);
-
-                status.innerText = '✓ Success! File downloaded';
-                status.className = 'status-display success';
-
-                // Reset after 2 seconds
-                setTimeout(() => {
-                    selectedFiles = [];
-                    fileInput.value = '';
-                    updateFileList();
-                    updateMergeButton();
-                    status.innerText = 'Ready to merge';
-                    status.className = 'status-display';
-                }, 2000);
-
-            } catch (error) {
-                console.error(error);
-                status.innerText = '✕ Error: Could not merge files. Please check they are valid PDFs.';
-                status.className = 'status-display error';
-                mergeBtn.disabled = false;
-            }
+                    // Reset after 2 seconds
+                    setTimeout(function () {
+                        selectedFiles = [];
+                        fileInput.value = '';
+                        updateFileList();
+                        updateMergeButton();
+                        statusEl.innerText = 'מוכן למיזוג';
+                        statusEl.className = 'status-display';
+                    }, 2000);
+                }).catch(function (error) {
+                    console.error(error);
+                    statusEl.innerText = '\u2715 שגיאה: לא ניתן למזג את הקבצים. אנא בדוק שהם קבצי PDF תקינים.';
+                    statusEl.className = 'status-display error';
+                    mergeBtn.disabled = false;
+                });
+            })();
         });
     </script>
 
